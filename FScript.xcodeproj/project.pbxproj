@@ -2088,8 +2088,11 @@
 				8FBB10A4044E28FD00181279 /* TestFS.h */,
 				0CD4E3A000D7DFE17BE9C1BD /* TestFS.m */,
 			);
+			indentWidth = 2;
 			path = FScriptFramework;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		8F6392E00BDB855B005C8D94 /* FScriptIBPlugin */ = {
 			isa = PBXGroup;
@@ -2125,8 +2128,11 @@
 				F538EF7F0279FD3C01345511 /* FSTask.m */,
 				F58090EB0375648201AED2EF /* ReadMe.txt */,
 			);
+			indentWidth = 2;
 			path = JGAdditions;
 			sourceTree = SOURCE_ROOT;
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		F5F1A9F4022E9A96011160FE /* F-Script */ = {
 			isa = PBXGroup;
@@ -2141,8 +2147,11 @@
 				8F9636480F8DF86600A70F39 /* DemoAssistant.xib */,
 				8F9636410F8DF69F00A70F39 /* FSDemoAssistant.m */,
 			);
+			indentWidth = 2;
 			path = "F-Script";
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		F5F1AAAD022E9E4F011160FE /* FSTest1 */ = {
 			isa = PBXGroup;
@@ -2152,8 +2161,11 @@
 				F5F1AAB0022E9E4F011160FE /* main.m */,
 				F5F1AAB1022E9E4F011160FE /* MainMenu.nib */,
 			);
+			indentWidth = 2;
 			path = FSTest1;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		F5F1AAB6022E9E90011160FE /* FSTest2 */ = {
 			isa = PBXGroup;
@@ -2163,8 +2175,11 @@
 				F5F1AAB9022E9E90011160FE /* main.m */,
 				F5F1AABA022E9E90011160FE /* MainMenu.nib */,
 			);
+			indentWidth = 2;
 			path = FSTest2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 /* End PBXGroup section */
 
