@@ -60,32 +60,6 @@ struct compilationContext
   BOOL isInClassMethod;
 };
 
-static BOOL isHexadecimalDigit(char digit)
-{
-  switch (digit) 
-  {
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4': 
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':  
-    case 'A':
-    case 'B':
-    case 'C':
-    case 'D':
-    case 'E':  
-    case 'F':  
-      return YES;
-    default:
-      return NO;
-  }
-}
-
 static struct codeNodePatternElementPair makeCodeNodePatternElementPair(FSCNBase *codeNode, id patternElement)
 {
   struct codeNodePatternElementPair r;
@@ -535,19 +509,20 @@ static NSString *FSOperatorFromObjCOperatorName(NSString *operatorName)  // ex: 
     
     if (string_index < string_size)
     {
-      if (string[string_index] == 'r')
-      {    
-        if (string_index == firstDigitIndex+2 && string[firstDigitIndex] == '1' && string[firstDigitIndex+1] == '6')
-        {
-          hexadecimalRadixSpecifierIndex = firstDigitIndex;
+      // isHexaR: format 16r2B7F
+      BOOL isHexaR = (string[string_index] == 'r' && (string_index == firstDigitIndex+2 && string[firstDigitIndex] == '1' && string[firstDigitIndex+1] == '6'));
+      // isHexaX: format 0x2B7F
+      BOOL isHexaX = ((string[string_index] == 'x' || string[string_index] == 'X') && string_index == firstDigitIndex+1 && string[firstDigitIndex] == '0');
+      if (isHexaR || isHexaX)
+      {
+        if (isHexaR) hexadecimalRadixSpecifierIndex = firstDigitIndex;
+        string_index++;
+        
+        if (string_index == string_size || !isxdigit(string[string_index]))
+         [self syntaxError:@"invalid number literal"];      
+        
+        while( string_index < string_size && (isxdigit(string[string_index])) )
           string_index++;
-        
-          if (string_index == string_size || !isHexadecimalDigit(string[string_index]))
-            [self syntaxError:@"invalid number literal"];      
-        
-          while( string_index < string_size && (isHexadecimalDigit(string[string_index])) )
-            string_index++;
-        }
       }
       else
       {
