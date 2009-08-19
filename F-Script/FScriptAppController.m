@@ -158,8 +158,31 @@ directory within the System domain. "*/
   [registrationDict setObject:@"YES" forKey:@"FScriptDisplayObjectBrowserAtLaunchTime"];
   [registrationDict setObject:@"YES" forKey:@"FScriptRunWithObjCAutomaticGarbageCollection"]; 
   [registrationDict setObject:@"YES" forKey:@"FScriptAutomaticallyIntrospectDeclaredProperties"];  
+  [registrationDict setObject:@"NO"  forKey:@"FScriptLoadPrivateFrameworks"];
  
   [[NSUserDefaults standardUserDefaults] registerDefaults:registrationDict];
+}
+
+- (void)loadSystemFrameworks
+{
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+  
+  NSMutableArray *systemFrameworksPaths = [NSMutableArray arrayWithObject:@"/System/Library/Frameworks"];
+  
+  if ([[NSUserDefaults standardUserDefaults] boolForKey:@"FScriptLoadPrivateFrameworks"])
+    [systemFrameworksPaths addObject:@"/System/Library/PrivateFrameworks"];
+  
+  for (NSString *systemFrameworksPath in systemFrameworksPaths)
+  {
+    for (NSString *framework in [[NSFileManager defaultManager] directoryContentsAtPath:systemFrameworksPath])
+    {
+      NSBundle *frameworkBundle = [NSBundle bundleWithPath:[systemFrameworksPath stringByAppendingPathComponent:framework]];
+      if ([frameworkBundle preflightAndReturnError:nil])
+        [frameworkBundle load];
+    }
+  }
+  
+  [pool drain];
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
@@ -171,6 +194,8 @@ directory within the System domain. "*/
   NSString *repositoryPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"FScriptRepositoryPath"];
   FSServicesProvider *servicesProvider;
     
+  [self performSelectorInBackground:@selector(loadSystemFrameworks) withObject:nil];
+  
   if (!repositoryPath || ![fileManager fileExistsAtPath:repositoryPath isDirectory:&b])
   {
     NSString *applicationSupportDirectoryPath = findPathToFileInLibraryWithinUserDomain(@"Application Support");
